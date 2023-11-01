@@ -34,7 +34,7 @@ public:
         return in;
     }
 
-    //overloading cout<<
+    //overloading cout<< c1 ==> ab
     friend std::ostream& operator<<(std::ostream& out, const Complex& complex) {
         out <<" ( "<< complex.m_real << " + " << complex.m_imag << "i ) ";
         return out;
