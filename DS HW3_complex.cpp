@@ -28,7 +28,7 @@ public:
         return Complex(m_real * other.m_real - m_imag * other.m_imag, m_imag * other.m_real + m_real * other.m_imag);
     }
 
-    //overloading cin>>abcd
+    //overloading cin>>
     friend std::istream& operator>>(std::istream& in, Complex& complex) {
         in >> complex.m_real >> complex.m_imag;
         return in;
