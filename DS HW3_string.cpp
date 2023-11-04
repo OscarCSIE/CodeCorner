@@ -4,24 +4,19 @@
 #include <unordered_map>
 #include <vector>
 
-
 class String {
     private:
     std::string m_string;
-    
     public:
     String(const std::string& input){
         m_string = input;
     }
-
     virtual std::unordered_map<char, int> frequency(const std::string m_string);
 };
 
 
 std::unordered_map<char, int> String::frequency(const std::string m_string) {
-    
     std::unordered_map<char, int> charCount;
-
     for (char c : m_string){
         if (c >= 32 && c <= 126) {
             charCount[c]++;
