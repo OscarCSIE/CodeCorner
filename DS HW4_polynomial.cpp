@@ -1,4 +1,7 @@
 #include <iostream>
+#include <vector>
+#include <map>
+#include <chrono>
 
 class Node {
 private:
@@ -22,7 +25,6 @@ private:
     Node* head_ptr;
     Node* tail_ptr;
     int termNumber = 0;
-    friend LinkedList mergeList();
 public:
     LinkedList() {
         head_ptr = nullptr;
@@ -40,38 +42,6 @@ public:
         }
         termNumber++;
     }
-
-    // void removeNode(const double coef, const double exp){
-    //     Node* current = head_ptr;
-    //     if(current->m_coef == coef && current->m_exp == exp) {
-    //         head_ptr = head_ptr->next;
-    //         return;
-    //     }
-    //     while(current != nullptr){
-    //         if(current->next->m_coef == coef && current->next->m_exp == exp){
-    //             current->next = current->next->next;
-    //         }
-    //         current = current->next;
-    //     }
-    // }
-
-    // void mergeNodes() {
-    //     Node* current = head_ptr;
-    //     if (current == nullptr || current->next == nullptr){
-    //         return;
-    //     }
-    //     while(current != nullptr){
-    //         Node* target = current->next;
-    //         while(target != nullptr){
-    //             if(target->m_exp == current->m_exp){
-    //                 current->m_coef += target->m_coef;
-    //             }else{
-    //                 target = target->next;
-    //             }
-    //         }
-    //         current = current->next;
-    //     }
-    // }
 
     void displayList() {
         Node* current = head_ptr;
@@ -102,16 +72,32 @@ public:
         }
     }
 
+    std::vector<std::pair<double, double>> toVector() {
+        std::vector<std::pair<double, double>> result;
+        Node* current = head_ptr;
+        while (current != nullptr) {
+            if(current->m_coef != 0){
+                result.push_back(std::pair<double, double>(current->m_coef, current->m_exp));
+            }
+            current = current->next;
+        }
+        return result;
+    }
 };
 
-LinkedList mergeList(const LinkedList& list){
-    LinkedList result;
+std::map<double, double> toMap(std::vector<std::pair<double, double>> vec) {
+    std::map<double, double> result;
 
-    result.appendNode(list.head_ptr.m_coef, list.head_ptr.m_exp);
+    for (const auto& pair : vec) {
+        if (result.count(pair.second) > 0) {
+            result[pair.second] += pair.first; // If the key already exists, add the value to the existing value
+        } else {
+            result[pair.second] = pair.first; // If the key doesn't exist, insert the pair
+        }
+    }
 
     return result;
 }
-
 
 int main() {
     int m, n;
@@ -143,22 +129,52 @@ int main() {
     list_2.displayList();
 
     LinkedList list_3;
+
+    auto start_time = std::chrono::steady_clock::now();
     list_3.multiplyList(list_1, list_2);
+    auto end_time = std::chrono::steady_clock::now();
+    // double t = static_cast<double>(std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count());
+    std::chrono::duration<double> t = end_time - start_time;
+    double duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
+
+
 
     std::cout << "Result of multiplication:" << std::endl;
     list_3.displayList();
 
+    std::vector<std::pair<double, double>> vector_3 = list_3.toVector();
+    for (const auto& pair : vector_3){
+        std::cout << "(" << pair.first << "x^" << pair.second << ") ";
+    }
+    std::cout << std::endl;
+
+    std::map<double, double> map = toMap(vector_3);
+    if (!map.empty()) {
+        auto it = map.rbegin();
+        for (it; it != std::prev(map.rend()); it++) {
+            std::cout << "(" << it->second << "x^" << it->first << ") + ";
+        }
+        std::cout << "(" << it->second << "x^" << it->first << ")";
+    }
+    std::cout << std::endl;
+
+    std::cout << "t = " << 1000*t.count() << std::endl;
+    std::cout << "Program took " << duration_ms << " milliseconds to run." << std::endl;
+
+
     return 0;
 }
 /*
+
 3
 2 3
 -1 2
 4.2 1
 5
--3 4
-1.5 2
--0.8 1
-0 0
--6 -1
+-3 8
+1.5 7
+-0.8 6
+0 5
+-6 4
+
 */
