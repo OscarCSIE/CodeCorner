@@ -4,7 +4,7 @@
 #include <ctime>
 
 int main() {
-    int m = 5 * 1000;
+    int m = 10 * 1000;
     int n = m;
     std::srand(std::time(0));
 

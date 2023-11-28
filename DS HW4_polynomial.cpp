@@ -138,16 +138,15 @@ int main() {
     std::chrono::duration<double> t = end_time - start_time;
     double duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
 
-    std::cout << "Result of multiplication:" << std::endl;
-
-    if (!map.empty()) {
-        auto it = map.rbegin();
-        for (it; it != std::prev(map.rend()); it++) {
-            std::cout << "(" << it->second << "x^" << it->first << ") + ";
-        }
-        std::cout << "(" << it->second << "x^" << it->first << ")";
-    }
-    std::cout << std::endl;
+    // std::cout << "Result of multiplication:" << std::endl;
+    // if (!map.empty()) {
+    //     auto it = map.rbegin();
+    //     for (it; it != std::prev(map.rend()); it++) {
+    //         std::cout << "(" << it->second << "x^" << it->first << ") + ";
+    //     }
+    //     std::cout << "(" << it->second << "x^" << it->first << ")";
+    // }
+    // std::cout << std::endl;
 
     std::cout << "t = " << 1000 * t.count() << std::endl;
     // system("pause");
