@@ -24,11 +24,19 @@ class LinkedList {
 private:
     Node* head_ptr;
     Node* tail_ptr;
-    int termNumber = 0;
 public:
     LinkedList() {
         head_ptr = nullptr;
         tail_ptr = nullptr;
+    }
+
+    ~LinkedList() {
+        Node* current = head_ptr;
+        while (current != nullptr) {
+            Node* nextNode = current->next;
+            delete current;
+            current = nextNode;
+        }
     }
 
     void appendNode(const double coef, const double exp) {
@@ -40,7 +48,6 @@ public:
             tail_ptr->next = newNode;
             tail_ptr = newNode;
         }
-        termNumber++;
     }
 
     void displayList() {
@@ -58,46 +65,43 @@ public:
         std::cout << std::endl;
     }
 
-    void multiplyList(const LinkedList& list1, const LinkedList& list2){
+    // void multiplyList(const LinkedList& list1, const LinkedList& list2){
+    //     Node* current1 = list1.head_ptr;
+    //     while (current1 != nullptr) {
+    //         Node* current2 = list2.head_ptr;
+    //         while (current2 != nullptr) {
+    //             double newCoef = current1->m_coef * current2->m_coef;
+    //             double newExp = current1->m_exp + current2->m_exp;
+    //             appendNode(newCoef, newExp);
+    //             current2 = current2->next;
+    //         }
+    //         current1 = current1->next;
+    //     }
+    // }
+    std::map<double, double> multiplyList(const LinkedList& list1, const LinkedList& list2){
+        std::map<double, double> result;
         Node* current1 = list1.head_ptr;
         while (current1 != nullptr) {
+            if(current1->m_coef == 0){
+                current1 = current1->next;
+                continue;
+            }
             Node* current2 = list2.head_ptr;
             while (current2 != nullptr) {
+                if(current2->m_coef == 0){
+                    current2 = current2->next;
+                    continue;
+                }
                 double newCoef = current1->m_coef * current2->m_coef;
                 double newExp = current1->m_exp + current2->m_exp;
-                appendNode(newCoef, newExp);
+                result[newExp] += newCoef;
                 current2 = current2->next;
             }
             current1 = current1->next;
         }
-    }
-
-    std::vector<std::pair<double, double>> toVector() {
-        std::vector<std::pair<double, double>> result;
-        Node* current = head_ptr;
-        while (current != nullptr) {
-            if(current->m_coef != 0){
-                result.push_back(std::pair<double, double>(current->m_coef, current->m_exp));
-            }
-            current = current->next;
-        }
         return result;
     }
 };
-
-std::map<double, double> toMap(std::vector<std::pair<double, double>> vec) {
-    std::map<double, double> result;
-
-    for (const auto& pair : vec) {
-        if (result.count(pair.second) > 0) {
-            result[pair.second] += pair.first; // If the key already exists, add the value to the existing value
-        } else {
-            result[pair.second] = pair.first; // If the key doesn't exist, insert the pair
-        }
-    }
-
-    return result;
-}
 
 int main() {
     int m, n;
@@ -126,17 +130,16 @@ int main() {
     LinkedList list_3;
 
     auto start_time = std::chrono::steady_clock::now();
-    list_3.multiplyList(list_1, list_2);
+    
+    std::map<double, double> map = list_3.multiplyList(list_1, list_2);
+    
     auto end_time = std::chrono::steady_clock::now();
 
     std::chrono::duration<double> t = end_time - start_time;
     double duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
 
     std::cout << "Result of multiplication:" << std::endl;
-    std::vector<std::pair<double, double>> vector_3 = list_3.toVector();
-    std::cout << std::endl;
 
-    std::map<double, double> map = toMap(vector_3);
     if (!map.empty()) {
         auto it = map.rbegin();
         for (it; it != std::prev(map.rend()); it++) {
@@ -147,7 +150,6 @@ int main() {
     std::cout << std::endl;
 
     std::cout << "t = " << 1000 * t.count() << std::endl;
-    //system("pause");
-
+    // system("pause");
     return 0;
 }

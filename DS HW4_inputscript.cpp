@@ -4,7 +4,7 @@
 #include <ctime>
 
 int main() {
-    int m = 1 * 1000;
+    int m = 5 * 1000;
     int n = m;
     std::srand(std::time(0));
 
@@ -33,6 +33,8 @@ int main() {
         outputFile << randomInt1 << " " << randomInt2 << std::endl;
     }
     outputFile.close();
+
+    std::cout << "Generated Output" << std::endl;
 
     return 0;
 }
