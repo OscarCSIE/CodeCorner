@@ -4,7 +4,7 @@
 #include <ctime>
 
 int main() {
-    int m = 10 * 1000;
+    int m = 5;
     int n = m;
     std::srand(std::time(0));
 
@@ -17,8 +17,8 @@ int main() {
     
     outputFile << m << std::endl;
     for (int i = 0; i < m; i++) {
-        int randomInt1 = (i % 2 == 0) ? 0 : (std::rand() % 21 - 10);
-        // int randomInt1 = std::rand() % 21 - 10;
+        // int randomInt1 = (i % 2 == 0) ? 0 : (std::rand() % 21 - 10);
+        int randomInt1 = std::rand() % 21 - 10;
         int randomInt2 = m - i; 
 
         outputFile << randomInt1 << " " << randomInt2 << std::endl;
@@ -26,8 +26,8 @@ int main() {
 
     outputFile << n << std::endl;
     for (int i = 0; i < n; i++) {
-        int randomInt1 = (i % 2 == 0) ? 0 : (std::rand() % 21 - 10);
-        // int randomInt1 = std::rand() % 21 - 10;
+        // int randomInt1 = (i % 2 == 0) ? 0 : (std::rand() % 21 - 10);
+        int randomInt1 = std::rand() % 21 - 10;
         int randomInt2 = n - i;
 
         outputFile << randomInt1 << " " << randomInt2 << std::endl;

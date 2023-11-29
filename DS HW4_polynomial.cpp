@@ -101,7 +101,17 @@ public:
         }
         return result;
     }
+
+    void mapToLinkedList(const std::map<double, double>& map) {
+        LinkedList result;
+        for (auto it = map.rbegin(); it != map.rend(); ++it) {
+            result.appendNode(it->second, it->first);
+        }
+        result.displayList();
+    }
 };
+
+
 
 int main() {
     int m, n;
@@ -132,23 +142,16 @@ int main() {
     auto start_time = std::chrono::steady_clock::now();
     
     std::map<double, double> map = list_3.multiplyList(list_1, list_2);
+    list_3.mapToLinkedList(map);
     
     auto end_time = std::chrono::steady_clock::now();
 
     std::chrono::duration<double> t = end_time - start_time;
     double duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
 
-    // std::cout << "Result of multiplication:" << std::endl;
-    // if (!map.empty()) {
-    //     auto it = map.rbegin();
-    //     for (it; it != std::prev(map.rend()); it++) {
-    //         std::cout << "(" << it->second << "x^" << it->first << ") + ";
-    //     }
-    //     std::cout << "(" << it->second << "x^" << it->first << ")";
-    // }
-    // std::cout << std::endl;
+    list_3.displayList();
 
     std::cout << "t = " << 1000 * t.count() << std::endl;
-    // system("pause");
+    system("pause");
     return 0;
 }
