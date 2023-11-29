@@ -104,7 +104,7 @@ public:
 
     void mapToLinkedList(const std::map<double, double>& map) {
         LinkedList result;
-        for (auto it = map.rbegin(); it != map.rend(); ++it) {
+        for (auto it = map.rbegin(); it != map.rend(); it++) {
             result.appendNode(it->second, it->first);
         }
         result.displayList();
