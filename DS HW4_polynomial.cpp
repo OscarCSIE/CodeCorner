@@ -12,6 +12,7 @@ private:
         std::cout << "(" << node->m_coef << "x^" << node->m_exp << ") ";
         return out;
     }
+
 public:
     Node(double coef, double exp){
         m_coef = coef;
@@ -65,21 +66,7 @@ public:
         std::cout << std::endl;
     }
 
-    // void multiplyList(const LinkedList& list1, const LinkedList& list2){
-    //     Node* current1 = list1.head_ptr;
-    //     while (current1 != nullptr) {
-    //         Node* current2 = list2.head_ptr;
-    //         while (current2 != nullptr) {
-    //             double newCoef = current1->m_coef * current2->m_coef;
-    //             double newExp = current1->m_exp + current2->m_exp;
-    //             appendNode(newCoef, newExp);
-    //             current2 = current2->next;
-    //         }
-    //         current1 = current1->next;
-    //     }
-    // }
-    std::map<double, double> multiplyList(const LinkedList& list1, const LinkedList& list2){
-        std::map<double, double> result;
+    void multiplyList(const LinkedList& list1, const LinkedList& list2){
         Node* current1 = list1.head_ptr;
         while (current1 != nullptr) {
             if(current1->m_coef == 0){
@@ -94,18 +81,63 @@ public:
                 }
                 double newCoef = current1->m_coef * current2->m_coef;
                 double newExp = current1->m_exp + current2->m_exp;
-                result[newExp] += newCoef;
+
+                appendNode(newCoef, newExp);
                 current2 = current2->next;
             }
             current1 = current1->next;
         }
-        return result;
     }
+    void mergeTerms() {
+        Node* current1 = head_ptr;
+        while (current1 != nullptr) {
+            Node* current2 = current1->next;
+            Node* prev2 = current1;
+            while (current2 != nullptr) {
+                if (current1->m_exp == current2->m_exp) {
+                    current1->m_coef += current2->m_coef;
+                    current2->m_coef = 0;
+                }
+                prev2 = current2;
+                current2 = current2->next;
+            }
+            current1 = current1->next;
+        }
 
-    void mapToLinkedList(const std::map<double, double>& map) {
-        LinkedList result;
-        for (auto it = map.rbegin(); it != map.rend(); it++) {
-            result.appendNode(it->second, it->first);
+        // Remove nodes with a coefficient of 0
+        Node* current = head_ptr;
+        Node* prev = nullptr;
+        while (current != nullptr) {
+            if (current->m_coef == 0) {
+                if (prev == nullptr) {
+                    head_ptr = current->next;
+                } else {
+                    prev->next = current->next;
+                }
+                delete current;
+                current = prev->next;
+            } else {
+                prev = current;
+                current = current->next;
+            }
+        }
+
+        Node* now = head_ptr;
+        while (now != nullptr) {
+            Node* next = now->next;
+            while (next != nullptr) {
+                if (now->m_exp < next->m_exp) {
+                    // Swap nodes
+                    double temp_coef = now->m_coef;
+                    double temp_exp = now->m_exp;
+                    now->m_coef = next->m_coef;
+                    now->m_exp = next->m_exp;
+                    next->m_coef = temp_coef;
+                    next->m_exp = temp_exp;
+                }
+                next = next->next;
+            }
+            now = now->next;
         }
     }
 };
@@ -124,6 +156,7 @@ int main() {
         std::cin >> coef >> exp;
         list_1.appendNode(coef, exp);
     }
+    list_1.mergeTerms();
 
     LinkedList list_2;
     std::cout << "Enter the number of terms for list 2: ";
@@ -134,19 +167,27 @@ int main() {
         std::cin >> coef >> exp;
         list_2.appendNode(coef, exp);
     }
+    list_2.mergeTerms();
+
     std::cout << std::endl;
 
     LinkedList list_3;
 
     auto start_time = std::chrono::steady_clock::now();
-    std::map<double, double> map = list_3.multiplyList(list_1, list_2);
+    list_3.multiplyList(list_1, list_2);
+    list_3.mergeTerms();
     auto end_time = std::chrono::steady_clock::now();
 
     std::chrono::duration<double> t = end_time - start_time;
     double duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
 
-    list_3.mapToLinkedList(map);
+    std::cout << "List 1:" << std::endl;
+    list_1.displayList();
+    std::cout << "List 2:" << std::endl;
+    list_2.displayList();
+    std::cout << "List 3:" << std::endl;
     list_3.displayList();
+
     std::cout << "t = " << 1000 * t.count() << std::endl;
     // system("pause");
     return 0;
