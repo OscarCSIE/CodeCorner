@@ -2,7 +2,6 @@
 #include <vector>
 #include <map>
 #include <chrono>
-
 class Node {
 private:
     double m_coef, m_exp;
@@ -12,7 +11,6 @@ private:
         std::cout << "(" << node->m_coef << "x^" << node->m_exp << ") ";
         return out;
     }
-
 public:
     Node(double coef, double exp){
         m_coef = coef;
@@ -142,8 +140,6 @@ public:
     }
 };
 
-
-
 int main() {
     int m, n;
 
@@ -189,6 +185,5 @@ int main() {
     list_3.displayList();
 
     std::cout << "t = " << 1000 * t.count() << std::endl;
-    // system("pause");
     return 0;
 }
