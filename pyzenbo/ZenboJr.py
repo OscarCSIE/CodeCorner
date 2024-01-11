@@ -1,10 +1,15 @@
 import pyzenbo
-from pyzenbo.modules.dialog_system import RobotFace
 import openai
 import zhconv
 import cv2
-import speech_recognition as sr
 import spacy
+import speech_recognition as sr
+from pyzenbo.modules.dialog_system import RobotFace
+from pyzenbo.modules.motion import Motion
+from pyzenbo.modules.line_follower import LineFollowerConfig
+from pyzenbo.modules.sensor import Sensor
+
+#https://zenbo.asus.com/tw/developer/documents/zenbo_junior/Zenbo-Junior-Python-SDK/1.0.46/motion
 
 nlp = spacy.load("zh_core_web_sm")
 recognizer = sr.Recognizer()
@@ -159,6 +164,7 @@ def display_camera_feed():
         print(f"Communication with Zenbo failed: {e}")
 
 if __name__ == "__main__":
+    
     sdk.robot.set_expression(RobotFace.PLEASED, "你想要問什麼問題？")
     prompt = input("你的問題: ")
 
