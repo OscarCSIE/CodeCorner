@@ -49,8 +49,7 @@ sdk.robot.register_listen_callback(domain_id, listen_callback)
 sdk.robot.set_expression(RobotFace.HIDEFACE, timeout=5)
 
 try:
-    result = sdk.vision.wait_for_detect_face(enable_debug_preview=True,
-                                             timeout=timeout)
+    result = sdk.vision.wait_for_detect_face(enable_debug_preview=True,timeout=timeout)
     print('wait_for_detect_face result:', result)
     if result:
         slu = say_hello_and_ask()

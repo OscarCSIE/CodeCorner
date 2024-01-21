@@ -1,6 +1,7 @@
 import logging
 import os
 
+
 import pyzenbo.modules.inter_communication as _inter_comm
 import pyzenbo.modules.zenbo_command as commands
 from pyzenbo.modules.baidu import Baidu
@@ -82,16 +83,10 @@ class PyZenbo:
     :meth:`pyzenbo.modules.media`
     """
 
-    def __init__(self,
-                 destination,
-                 on_state_change_callback=None,
-                 on_result_callback=None):
+    def __init__(self, destination, on_state_change_callback=None, on_result_callback=None):
         if os.getenv('KEY_RUN_LOCALLY', 'false') == 'true':
             destination = '127.0.0.1'
-        self._inter_comm.init((destination, 55555),
-                              on_state_change_callback,
-                              on_result_callback,
-                              timeout=2)
+        self._inter_comm.init((destination, 55555), on_state_change_callback, on_result_callback, timeout=2)
 
     def __enter__(self):
         return self
@@ -210,8 +205,7 @@ error_code.code_to_description(error), state))
             'command': int(command),
             'target_id': 0,
         }
-        serial, error = self._inter_comm.send_command(des, cmd, data, sync,
-                                                      timeout)
+        serial, error = self._inter_comm.send_command(des, cmd, data, sync, timeout)
         return serial, error
 
     def cancel_command_by_serial(self, serial, sync=True, timeout=None):
@@ -239,8 +233,7 @@ error_code.code_to_description(error), state))
             'command': 0,
             'target_id': int(serial),
         }
-        serial, error = self._inter_comm.send_command(des, cmd, data, sync,
-                                                      timeout)
+        serial, error = self._inter_comm.send_command(des, cmd, data, sync, timeout)
         return serial, error
 
     def cancel_command_all(self, sync=True, timeout=None):
@@ -266,8 +259,7 @@ error_code.code_to_description(error), state))
             'command': 0,
             'target_id': 0,
         }
-        serial, error = self._inter_comm.send_command(des, cmd, data, sync,
-                                                      timeout)
+        serial, error = self._inter_comm.send_command(des, cmd, data, sync, timeout)
         return serial, error
 
     def get_connection_state(self):

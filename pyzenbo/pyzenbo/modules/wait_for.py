@@ -1,8 +1,7 @@
 import logging
 import threading
 
-from pyzenbo.modules.zenbo_command import (VISION_REQUEST_DETECT_FACE,
-                                           VISION_REQUEST_RECOGNIZE_PERSON)
+from pyzenbo.modules.zenbo_command import (VISION_REQUEST_DETECT_FACE,VISION_REQUEST_RECOGNIZE_PERSON)
 
 logger = logging.getLogger('pyzenbo')
 
