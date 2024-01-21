@@ -67,7 +67,6 @@ def speech_recognition():
         return
 
     # We have the user input, generate a response using GPT?
-    openai.api_key = 'api-key'
     response = openai.Completion.create(
         engine = "text-davinci-003",
         prompt = user_input,
