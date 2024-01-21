@@ -1,34 +1,14 @@
 from pyzenbo.modules.line_follower import LineFollower
 from pyzenbo.modules.line_follower import LineFollowerConfig
+import pyzenbo.modules.inter_communication as _inter_comm
+import pyzenbo.modules.zenbo_command as commands
+from pyzenbo.modules import error_code
+from pyzenbo.modules.inter_communication import DESTINATION, InterComm
 from pyzenbo.modules.motion import Motion
 from pyzenbo.modules.sensor import Sensor
 
+from pyzenbo.modules.socket_state_machine import SocketStateMachine
 
-def main():
-    config = LineFollowerConfig()
-
-    # Add a rule to the configuration
-    #only if 'SPEED_LEVEL'(needs a speed var ) or 'ROTATION'(needs a rotation angle var)
-    color = LineFollowerConfig.COLOR['BLUE']
-    behavior = LineFollowerConfig.BEHAVIOR['CROSSROAD_LEFT']
-    speed_level = LineFollowerConfig.SPEED['L2']
-    
-    config.add_rule(color, behavior)
-
-    # Get the rule for a specific color
-    rule = config.get_rule(color)
-    print(rule)  # Output: {2: 2}
-
-    # Remove the rule for a specific color
-    config.remove_rule(color)
-
-    # Get the updated rule list
-    rule_list = config.get_rule_list()
-    print(rule_list)  # Output: {}
-
-    # Build the configuration as a JSON string
-    config_json = config.build()
-    print(config_json)  # Output: "{}"
 
 
 def main():
@@ -50,7 +30,7 @@ def main():
     degree_black = 90
     
     config.add_rule(color_blue, behavior_blue)
-    config.add_rule([color_blue, color_white], [behavior_blue, behavior_white], ['', speed_level_white])
+    config.add_rule(color_white, behavior_white, speed_level_white)
     config.add_rule(color_red, behavior_red, speed_level_red)
     config.add_rule(color_black, behavior_black, degree_black)
 
@@ -70,6 +50,17 @@ def main():
 
     config_json = config.build()
     print(f"Config_json =  {config_json}")
+    
+    intercom = InterComm()
+    linefollow = LineFollower(intercom)
+    
+    linefollow.calibrate(reset = True, sync = False, timeout = None)
+    
+    linefollow.demo(sync = False, timeout = None)
+    
+    linefollow.get_color(sync = True, timeout = None)
+    
+    linefollow.follow_line(json_string = config_json, sync = True, timeout = None)
 
 if __name__ == '__main__':
     main()
