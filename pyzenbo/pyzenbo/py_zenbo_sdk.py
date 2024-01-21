@@ -20,68 +20,27 @@ logger = logging.getLogger('pyzenbo')
 
 
 class PyZenbo:
-    """
-    Python Zenbo SDK, this SDK provides a interface to zenbo robot features.
-    """
     _inter_comm = _inter_comm.InterComm()
 
     motion = Motion(_inter_comm)
-    """
-    Provides body movement and head control.
 
-    :meth:`pyzenbo.modules.motion`
-    """
     robot = DialogSystem(_inter_comm)
-    """
-    Class that can be used to make Zenbo speak and listen,
-    and to change the facial expressions.
 
-    :meth:`pyzenbo.modules.dialog\_system`
-    """
     utility = Utility(_inter_comm)
-    """
-    Provides composite functions.
 
-    :meth:`pyzenbo.modules.utility`
-    """
     wheelLights = WheelLights(_inter_comm)
-    """
-    Control wheel lights.
 
-    :meth:`pyzenbo.modules.wheel\_lights`
-    """
     baidu = Baidu(_inter_comm)
 
     vision = VisionControl(_inter_comm)
-    """
-    Provides visual functions.
 
-    :meth:`pyzenbo.modules.vision\_control`
-    """
     lineFollower = LineFollower(_inter_comm)
-    """
-    Provides line follower control functions.
 
-    :meth:`pyzenbo.modules.line\_follower`
-    """
     sensor = Sensor(_inter_comm)
-    """
-    Provides sensor relate functions.
 
-    :meth:`pyzenbo.modules.sensor`
-    """
     system = System(_inter_comm)
-    """
-    Provides system relate functions.
 
-    :meth:`pyzenbo.modules.system`
-    """
     media = Media(_inter_comm)
-    """
-    Provides media relate functions.
-
-    :meth:`pyzenbo.modules.media`
-    """
 
     def __init__(self, destination, on_state_change_callback=None, on_result_callback=None):
         if os.getenv('KEY_RUN_LOCALLY', 'false') == 'true':
