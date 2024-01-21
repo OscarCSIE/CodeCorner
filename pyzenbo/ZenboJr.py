@@ -2,16 +2,32 @@ import pyzenbo
 import openai
 import zhconv
 import cv2
-import spacy
+# import spacy
 import speech_recognition as sr
+import logging
+import os
+import pyzenbo.modules.inter_communication as _inter_comm
+import pyzenbo.modules.zenbo_command as commands
+from pyzenbo.modules.baidu import Baidu
+from pyzenbo.modules.dialog_system import DialogSystem
 from pyzenbo.modules.dialog_system import RobotFace
-from pyzenbo.modules.motion import Motion
+from pyzenbo.modules.inter_communication import DESTINATION
+from pyzenbo.modules.line_follower import LineFollower
 from pyzenbo.modules.line_follower import LineFollowerConfig
+from pyzenbo.modules.media import Media
+from pyzenbo.modules.motion import Motion
 from pyzenbo.modules.sensor import Sensor
+from pyzenbo.modules.system import System
+from pyzenbo.modules.utility import Utility
+from pyzenbo.modules.vision_control import VisionControl
+from pyzenbo.modules.wheel_lights import WheelLights
+
+logger = logging.getLogger('pyzenbo')
+
 
 #https://zenbo.asus.com/tw/developer/documents/zenbo_junior/Zenbo-Junior-Python-SDK/1.0.46/motion
 
-nlp = spacy.load("zh_core_web_sm")
+# nlp = spacy.load("zh_core_web_sm")
 recognizer = sr.Recognizer()
 host = '172.20.10.4'
 #host = '192.168.0.38'

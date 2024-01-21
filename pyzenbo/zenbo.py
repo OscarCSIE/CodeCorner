@@ -1,140 +1,75 @@
-import logging
-import os
-
-
-import pyzenbo.modules.inter_communication as _inter_comm
-import pyzenbo.modules.zenbo_command as commands
-from pyzenbo.modules.baidu import Baidu
-from pyzenbo.modules.dialog_system import DialogSystem
-from pyzenbo.modules.inter_communication import DESTINATION
 from pyzenbo.modules.line_follower import LineFollower
-from pyzenbo.modules.media import Media
+from pyzenbo.modules.line_follower import LineFollowerConfig
 from pyzenbo.modules.motion import Motion
 from pyzenbo.modules.sensor import Sensor
-from pyzenbo.modules.system import System
-from pyzenbo.modules.utility import Utility
-from pyzenbo.modules.vision_control import VisionControl
-from pyzenbo.modules.wheel_lights import WheelLights
-
-logger = logging.getLogger('pyzenbo')
-
-
-class PyZenbo:
-
-    _inter_comm = _inter_comm.InterComm()
-
-    motion = Motion(_inter_comm)
-
-    robot = DialogSystem(_inter_comm)
-
-    utility = Utility(_inter_comm)
-
-    wheelLights = WheelLights(_inter_comm)
-
-    baidu = Baidu(_inter_comm)
-
-    vision = VisionControl(_inter_comm)
-
-    lineFollower = LineFollower(_inter_comm)
-
-    sensor = Sensor(_inter_comm)
-
-    system = System(_inter_comm)
-
-    media = Media(_inter_comm)
-
-
-    def __init__(self, destination, on_state_change_callback=None, on_result_callback=None):
-        if os.getenv('KEY_RUN_LOCALLY', 'false') == 'true':
-            destination = '127.0.0.1'
-        self._inter_comm.init((destination, 55555), on_state_change_callback, on_result_callback, timeout=2)
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.release()
-
-    @property
-    def on_state_change_callback(self):
-        return self._inter_comm.on_state_change_callback
-
-    @on_state_change_callback.setter
-    def on_state_change_callback(self, on_state_change_callback):
-        logger.debug(self._inter_comm.on_state_change_callback)
-        self._inter_comm.on_state_change_callback = on_state_change_callback
-        logger.debug(self._inter_comm.on_state_change_callback)
-
-    @on_state_change_callback.deleter
-    def on_state_change_callback(self):
-        del self._inter_comm.on_state_change_callback
-
-    @property
-    def on_result_callback(self):
-        return self._inter_comm.on_result_callback
-
-    @on_result_callback.setter
-    def on_result_callback(self, on_result_callback):
-        self._inter_comm.on_result_callback = on_result_callback
-
-    @on_result_callback.deleter
-    def on_result_callback(self):
-        del self._inter_comm.on_result_callback
-
-    @property
-    def on_vision_callback(self):
-        return self._inter_comm.on_vision_callback
-
-    @on_vision_callback.setter
-    def on_vision_callback(self, on_vision_callback):
-        self._inter_comm.on_vision_callback = on_vision_callback
-
-    @on_vision_callback.deleter
-    def on_vision_callback(self):
-        del self._inter_comm.on_vision_callback
-
-    def release(self):
-        logger.info('PyZenboSDK prepare release, cancel all command')
-        self._inter_comm.release()
-        logger.info('PyZenboSDK released')
-
-    def cancel_command(self, command, sync=True, timeout=None):
-        des = DESTINATION["coordinator"]
-        cmd = commands.CANCEL
-        data = {
-            'command': int(command),
-            'target_id': 0,
-        }
-        serial, error = self._inter_comm.send_command(des, cmd, data, sync, timeout)
-        return serial, error
-
-    def cancel_command_by_serial(self, serial, sync=True, timeout=None):
-        des = DESTINATION["coordinator"]
-        cmd = commands.CANCEL
-        data = {
-            'command': 0,
-            'target_id': int(serial),
-        }
-        serial, error = self._inter_comm.send_command(des, cmd, data, sync, timeout)
-        return serial, error
-
-    def cancel_command_all(self, sync=True, timeout=None):
-        des = DESTINATION["coordinator"]
-        cmd = commands.CANCEL
-        data = {
-            'command': 0,
-            'target_id': 0,
-        }
-        serial, error = self._inter_comm.send_command(des, cmd, data, sync, timeout)
-        return serial, error
-
-    def get_connection_state(self):
-        return self._inter_comm.skt.stateSend, \
-            self._inter_comm.skt.stateReceive
 
 
 def main():
-    pass
+    config = LineFollowerConfig()
+
+    # Add a rule to the configuration
+    #only if 'SPEED_LEVEL'(needs a speed var ) or 'ROTATION'(needs a rotation angle var)
+    color = LineFollowerConfig.COLOR['BLUE']
+    behavior = LineFollowerConfig.BEHAVIOR['CROSSROAD_LEFT']
+    speed_level = LineFollowerConfig.SPEED['L2']
+    
+    config.add_rule(color, behavior)
+
+    # Get the rule for a specific color
+    rule = config.get_rule(color)
+    print(rule)  # Output: {2: 2}
+
+    # Remove the rule for a specific color
+    config.remove_rule(color)
+
+    # Get the updated rule list
+    rule_list = config.get_rule_list()
+    print(rule_list)  # Output: {}
+
+    # Build the configuration as a JSON string
+    config_json = config.build()
+    print(config_json)  # Output: "{}"
+
+
+def main():
+    config = LineFollowerConfig()
+
+    color_blue = LineFollowerConfig.COLOR['BLUE']
+    behavior_blue = LineFollowerConfig.BEHAVIOR['CROSSROAD_LEFT']
+    
+    color_white = LineFollowerConfig.COLOR['WHITE']
+    behavior_white = LineFollowerConfig.BEHAVIOR['SPEED_LEVEL']
+    speed_level_white = LineFollowerConfig.SPEED['L3']
+    
+    color_red = LineFollowerConfig.COLOR['RED']
+    behavior_red = LineFollowerConfig.BEHAVIOR['SPEED_LEVEL']
+    speed_level_red = LineFollowerConfig.SPEED['L2']
+    
+    color_black = LineFollowerConfig.COLOR['BLACK']
+    behavior_black = LineFollowerConfig.BEHAVIOR['ROTATION']
+    degree_black = 90
+    
+    config.add_rule(color_blue, behavior_blue)
+    config.add_rule([color_blue, color_white], [behavior_blue, behavior_white], ['', speed_level_white])
+    config.add_rule(color_red, behavior_red, speed_level_red)
+    config.add_rule(color_black, behavior_black, degree_black)
+
+    rule_blue = config.get_rule(color_blue)
+    print(f"Rule_blue = {rule_blue}")
+    rule_white = config.get_rule(color_white)
+    print(f"Rule_white = {rule_white}")
+    rule_red = config.get_rule(color_red)
+    print(f"Rule_red = {rule_red}")
+    rule_black = config.get_rule(color_black)
+    print(f"Rule_black = {rule_black}")
+
+    # config.remove_rule(color_black)
+
+    rule_list = config.get_rule_list()
+    print(f"Rule_list = {rule_list}")
+
+    config_json = config.build()
+    print(f"Config_json =  {config_json}")
 
 if __name__ == '__main__':
     main()
