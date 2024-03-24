@@ -1,6 +1,7 @@
 #include <random>
 #include <ctime>
 #include <vector>
+#include <fstream>
 
 std::vector<int> randomnumber(int n){
     std::vector<int> list(n);
@@ -11,5 +12,21 @@ std::vector<int> randomnumber(int n){
     }
     return list;
 }
+
+int main(){
+    //write to five txt files with 10, 100, 1000, 10000, 100000 random numbers
+    for(int n = 10 ; n <= 100000 ; n *= 10){
+        std::vector<int> arr = randomnumber(n);
+        std::string filename = "random" + std::to_string(n) + ".txt";
+        std::ofstream file(filename);
+        for(int i = 0 ; i < n ; i++){
+            file << arr[i] << std::endl;
+        }
+        file.close();
+    }
+    return 0;
+}
+
+//uniform_int_distribution -> https://cplusplus.com/reference/random/uniform_int_distribution/
 
 //random -> https://cplusplus.com/reference/random/

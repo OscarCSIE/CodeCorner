@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "..\CodeCorner\DS HW5_randomnumber.cpp"
+#include <fstream>
 #include <chrono>
 
 void merge(std::vector<int>& arr, int l, int m, int r) {
@@ -54,12 +54,22 @@ void mergeSort(std::vector<int>& arr, int l, int r) {
 }
 
 int main() {
-    for(int n = 10 ; n <= 100000 ; n *= 10){
-        std::vector<int> arr = randomnumber(n);
+    std::vector<int> list;
+
+    for(int n = 10; n <= 100000 ; n *= 10){
+        std::ifstream infile("random" + std::to_string(n) + ".txt");
+
+        int number;
+        while(infile >> number){
+            list.push_back(number);
+        }
+        infile.close();
+
         auto start_time = std::chrono::steady_clock::now();
-        mergeSort(arr, 0, arr.size() - 1);
+        mergeSort(list, 0, list.size() - 1);
         auto end_time = std::chrono::steady_clock::now();
-        std::cout << "n = " << n << " : " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() << "ns" << std::endl;
+        
+        std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000.0 << " ms" << std::endl;
     }
     return 0;
 }
