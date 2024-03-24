@@ -1,8 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <time.h>
-#include <chrono>
 #include <fstream>
+#include <chrono>
 
 void quickSort(std::vector<int>& arr, int start, int end){
     if (start < end) {
