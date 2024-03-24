@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include "..\CodeCorner\DS HW5_randomnumber.cpp"
+#include <chrono>
 
 void merge(std::vector<int>& arr, int l, int m, int r) {
     int n1 = m - l + 1;
@@ -52,14 +54,12 @@ void mergeSort(std::vector<int>& arr, int l, int r) {
 }
 
 int main() {
-    std::vector<int> arr = {26, 5, 37, 1, 61, 11, 59, 15, 48, 19};
-    int arr_size = arr.size();
-
-    mergeSort(arr, 0, arr_size - 1);
-
-    for (int i = 0; i < arr_size; i++)
-        std::cout << arr[i] << " ";
-    std::cout << std::endl;
-
+    for(int n = 10 ; n <= 100000 ; n *= 10){
+        std::vector<int> arr = randomnumber(n);
+        auto start_time = std::chrono::steady_clock::now();
+        mergeSort(arr, 0, arr.size() - 1);
+        auto end_time = std::chrono::steady_clock::now();
+        std::cout << "n = " << n << " : " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() << "ns" << std::endl;
+    }
     return 0;
 }
