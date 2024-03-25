@@ -14,8 +14,7 @@ std::vector<int> randomnumber(int n){
 }
 
 int main(){
-    //write to five txt files with 10, 100, 1000, 10000, 100000 random numbers
-    for(int n = 10 ; n <= 100000 ; n *= 10){
+    for(int n = 10 ; n <= 100000 ; n++){
         std::vector<int> arr = randomnumber(n);
         std::string filename = "random" + std::to_string(n) + ".txt";
         std::ofstream file(filename);
