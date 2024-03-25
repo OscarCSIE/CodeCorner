@@ -54,13 +54,18 @@ def main():
     intercom = InterComm()
     linefollow = LineFollower(intercom)
     
-    linefollow.calibrate(reset = True, sync = False, timeout = None)
+    # linefollow.calibrate(reset = True, sync = False, timeout = None)
     
-    linefollow.demo(sync = False, timeout = None)
+    # linefollow.demo(sync = False, timeout = None)
     
-    linefollow.get_color(sync = True, timeout = None)
+    # linefollow.get_color(sync = False, timeout = None)
     
-    linefollow.follow_line(json_string = config_json, sync = True, timeout = None)
+    # linefollow.follow_line(json_string = config_json, sync = True, timeout = None)
+    
+    # linefollow.update_config(json_string = config_json, sync = False, timeout = None)
+    
+    # linefollow.set_behavior(1, behavior_black, arg = None, sync = True, timeout = None)
+    '''arg is for speed level and rotation,first parameter is speed,second parameter is rotation, otherwise dont use it'''
 
 if __name__ == '__main__':
     main()

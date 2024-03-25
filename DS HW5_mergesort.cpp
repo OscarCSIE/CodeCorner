@@ -56,7 +56,7 @@ void mergeSort(std::vector<int>& arr, int l, int r) {
 int main() {
     std::vector<int> list;
 
-    for(int n = 10; n <= 100000 ; n *= 10){
+    for(int n = 10; n <= 100000 ; n*=10){
         std::ifstream infile("random" + std::to_string(n) + ".txt");
 
         int number;
