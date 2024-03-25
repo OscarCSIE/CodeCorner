@@ -2,6 +2,7 @@
 #include <ctime>
 #include <vector>
 #include <fstream>
+//fstream -> https://cplusplus.com/doc/tutorial/files/
 
 std::vector<int> randomnumber(int n){
     std::vector<int> list(n);
