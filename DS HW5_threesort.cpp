@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <chrono>
+// time -> https://en.cppreference.com/w/cpp/chrono
 
 std::vector<int> randomnumber(int n){
     std::vector<int> list(n);
@@ -125,23 +126,23 @@ int main(){
             std::vector<int> arr = randomnumber(n);
             switch(choice){
                 case 1:{//quickSort
-                    auto start_time = std::chrono::steady_clock::now();
+                    auto start_time = std::chrono::high_resolution_clock::now();
                     quickSort(arr, 0, arr.size() - 1);
-                    auto end_time = std::chrono::steady_clock::now();
+                    auto end_time = std::chrono::high_resolution_clock::now();
                     std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
                     break;
                 }
                 case 2:{//mergesort
-                    auto start_time = std::chrono::steady_clock::now();
+                    auto start_time = std::chrono::high_resolution_clock::now();
                     mergesort(arr, 0, arr.size() - 1);
-                    auto end_time = std::chrono::steady_clock::now();
+                    auto end_time = std::chrono::high_resolution_clock::now();
                     std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
                     break;
                 }
                 case 3:{//heapsort
-                    auto start_time = std::chrono::steady_clock::now();
+                    auto start_time = std::chrono::high_resolution_clock::now();
                     heapsort(arr);
-                    auto end_time = std::chrono::steady_clock::now();
+                    auto end_time = std::chrono::high_resolution_clock::now();
                     std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
                     break;
                 }

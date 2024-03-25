@@ -169,10 +169,10 @@ int main() {
 
     LinkedList list_3;
 
-    auto start_time = std::chrono::steady_clock::now();
+    auto start_time = std::chrono::high_resolution_clock::now();
     list_3.multiplyList(list_1, list_2);
     list_3.mergeTerms();
-    auto end_time = std::chrono::steady_clock::now();
+    auto end_time = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> t = end_time - start_time;
     double duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
