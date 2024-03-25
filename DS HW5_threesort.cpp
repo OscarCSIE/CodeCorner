@@ -121,14 +121,14 @@ int main(){
     int choice;
     std::cout << "1. quickSort\n2. mergeSort\n3. heapSort\nEnter your choice:\n";
     while(std::cin>>choice){
-        for(int n = 10 ; n <= 10000 ; n++){
+        for(int n = 10 ; n <= 10000 ; n*=10){
             std::vector<int> arr = randomnumber(n);
             switch(choice){
                 case 1:{//quickSort
                     auto start_time = std::chrono::steady_clock::now();
                     quickSort(arr, 0, arr.size() - 1);
                     auto end_time = std::chrono::steady_clock::now();
-                    std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000.0 << " ms" << std::endl;
+                    std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << " ms" << std::endl;
                     break;
                 }
                 case 2:{//mergesort
