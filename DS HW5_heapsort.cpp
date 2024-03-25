@@ -4,8 +4,8 @@
 #include <chrono>
 
 void heapify(std::vector<int>& nums, int n, int index){
-        int left = (2 * index) + 1;
-        int right = (2 * index) + 2;
+        int left = 2 * index;
+        int right = (2 * index) + 1;
         int largest = index;
         if(left < n && nums[left] > nums[largest]){
             largest = left;
@@ -36,7 +36,7 @@ void heapsort(std::vector<int> &nums){
 int main(){
     std::vector<int> list;
 
-    for(int n = 10; n <= 100000 ; n *= 10){
+    for(int n = 10; n <= 100 ; n *= 10){
         std::ifstream infile("random" + std::to_string(n) + ".txt");
 
         int number;
@@ -48,7 +48,7 @@ int main(){
         auto start_time = std::chrono::high_resolution_clock::now();
         heapsort(list);
         auto end_time = std::chrono::high_resolution_clock::now();
-        
+
         std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
     }
 	return 0;
