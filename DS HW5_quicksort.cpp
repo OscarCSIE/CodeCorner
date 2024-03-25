@@ -39,7 +39,7 @@ int main(){
         auto start_time = std::chrono::high_resolution_clock::now();
         quickSort(list, 0, list.size() - 1);
         auto end_time = std::chrono::high_resolution_clock::now();
-        
+
         std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
     }
 	return 0;
