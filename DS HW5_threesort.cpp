@@ -121,7 +121,7 @@ int main(){
     int choice;
     std::cout << "1. quickSort\n2. mergeSort\n3. heapSort\nEnter your choice:\n";
     while(std::cin>>choice){
-        for(int n = 10 ; n <= 10000 ; n++){
+        for(int n = 10 ; n <= 100000 ; n++){
             std::vector<int> arr = randomnumber(n);
             switch(choice){
                 case 1:{//quickSort

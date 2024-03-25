@@ -52,6 +52,16 @@ void mergeSort(std::vector<int>& arr, int l, int r) {
         merge(arr, l, m, r);
     }
 }
+#include <random>
+std::vector<int> randomnumber(int n){
+    std::vector<int> list(n);
+    std::default_random_engine rng(std::time(NULL));
+    std::uniform_int_distribution<int> number(1, 50000);
+    for(int i = 0 ; i < n ; i++){
+        list[i] = number(rng);
+    }
+    return list;
+}
 
 int main() {
     std::vector<int> list;
@@ -69,7 +79,7 @@ int main() {
         mergeSort(list, 0, list.size() - 1);
         auto end_time = std::chrono::steady_clock::now();
         
-        std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000.0 << " ms" << std::endl;
+        std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
     }
     return 0;
 }

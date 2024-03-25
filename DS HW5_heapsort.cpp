@@ -49,7 +49,7 @@ int main(){
         heapsort(list);
         auto end_time = std::chrono::steady_clock::now();
         
-        std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000.0 << " ms" << std::endl;
+        std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
     }
 	return 0;
 }
