@@ -130,20 +130,35 @@ int main(){
                     quickSort(arr, 0, arr.size() - 1);
                     auto end_time = std::chrono::high_resolution_clock::now();
                     std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
+                    // if(n == 100){
+                    //     for(int i = 0 ; i < n ; i++){
+                    //         std::cout << arr[i] << std::endl;
+                    //     }
+                    // }
                     break;
                 }
                 case 2:{//mergesort
                     auto start_time = std::chrono::high_resolution_clock::now();
                     mergesort(arr, 0, arr.size() - 1);
                     auto end_time = std::chrono::high_resolution_clock::now();
-                    std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
+                    //std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
+                    if(n == 100){
+                        for(int i = 0 ; i < n ; i++){
+                            std::cout << arr[i] << std::endl;
+                        }
+                    }
                     break;
                 }
                 case 3:{//heapsort
                     auto start_time = std::chrono::high_resolution_clock::now();
                     heapsort(arr);
                     auto end_time = std::chrono::high_resolution_clock::now();
-                    std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
+                    // std::cout <<"n = "<< n << "-> " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 1000000.0 << " ms" << std::endl;
+                    if(n == 100){
+                        for(int i = 0 ; i < n ; i++){
+                            std::cout << arr[i] << std::endl;
+                        }
+                    }
                     break;
                 }
             }

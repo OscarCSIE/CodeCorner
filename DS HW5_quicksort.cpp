@@ -18,7 +18,7 @@ void quickSort(std::vector<int>& arr, int start, int end){
             }
         }
         std::swap(arr[start], arr[j]);
-        
+
         quickSort(arr, start, j - 1);
         quickSort(arr, j + 1, end);
     }
