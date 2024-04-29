@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <algorithm>
 #include <ctime>
 
 std::pair<int, int> generateRandomEdge(int n, const std::vector<std::vector<int>>& adjacencyMatrix) {
@@ -21,6 +22,8 @@ std::vector<std::vector<int>> createAdjacencyList(int n) {
     return list;
 }
 
+
+
 int main() {
     srand(time(0));
 
@@ -29,12 +32,12 @@ int main() {
     std::cin >> n;
     std::cout << "Enter number of edges: ";
     std::cin >> e;
-    if(e > (n * (n - 1) / 2)){// (Cn取2)
+    if(e > (n * (n - 1) / 2)){// (C N取2)
         std::cout << "That's too many edges\n";
         std::cout << "The maximum number of edges for " << n << " nodes is " << (n * (n - 1) / 2) << "\n";
         return 0;
     }
-
+    
     std::vector<std::vector<int>> adjacencyMatrix = createAdjacencyMatrix(n);
     std::vector<std::vector<int>> adjacencyList = createAdjacencyList(n);
 
@@ -46,8 +49,12 @@ int main() {
         }
         adjacencyMatrix[edge.first][edge.second] = 1;
         adjacencyMatrix[edge.second][edge.first] = 1;
+        
         adjacencyList[edge.first].push_back(edge.second);
         adjacencyList[edge.second].push_back(edge.first);
+    }
+    for (int i = 0; i < n; i++) {
+        std::sort(adjacencyList[i].begin(), adjacencyList[i].end());
     }
 
     std::cout << "Adjacency Matrix:\n";
