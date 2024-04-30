@@ -17,6 +17,7 @@ std::pair<int, int> generateRandomEdge(int n, const std::vector<std::vector<int>
     return std::make_pair(a, b);
 }
 
+
 //empty matrix that is vector of vector == 2d array
 std::vector<std::vector<int>> createAdjacencyMatrix(int n) {
     std::vector<std::vector<int>> matrix(n, std::vector<int>(n, 0));
@@ -71,11 +72,16 @@ void DFS(int v, const std::vector<std::vector<int>>& adjacencyMatrix) {
     }
 }
 
+//v: current vertex
+//visited: vector of bool to check if the vertex is visited or not
+//adjacencyMatrix: 2d vector to store the graph
+
+//edges: vector of pair to store the edges
 
 void BFS(int v, const std::vector<std::vector<int>>& adjacencyMatrix) {
-    std::vector<bool> visited(adjacencyMatrix.size(), false);
-    std::queue<int> queue;
-    std::vector<std::pair<int, int>> edges;
+    std::vector<bool> visited(adjacencyMatrix.size(), false);//nobody is visited yet
+    std::queue<int> queue;//queue to store the vertices -> for the path
+    std::vector<std::pair<int, int>> edges;//edge record
     visited[v] = true;
     queue.push(v);
 
