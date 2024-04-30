@@ -4,6 +4,7 @@
 #include <stack>
 #include <algorithm>
 #include <ctime>
+#include <fstream>
 
 // get a random edge
 std::pair<int, int> generateRandomEdge(int n, const std::vector<std::vector<int>>& adjacencyMatrix) {
@@ -70,6 +71,25 @@ void DFS(int v, const std::vector<std::vector<int>>& adjacencyMatrix) {
             std::cout << "-> " << edges[i].second << " ";
         }
     }
+    //write all the edge[i].first and second to a csv file
+    std::ofstream file;
+    file.open("DFS.csv");
+    for (int i = 0; i < edges.size(); i++) {
+        file << edges[i].first <<","<< edges[i].second<< "\n";
+    }
+    file.close();
+
+    std::cout << "\nDFS as a adjacency matrix: \n";
+    std::vector<std::vector<int>> adjacencyMatrixDFS = createAdjacencyMatrix(adjacencyMatrix.size());
+    for (const auto& edge : edges) {
+        adjacencyMatrixDFS[edge.first][edge.second] = 1;
+    }
+    for (const auto &row : adjacencyMatrixDFS) {
+        for (int val : row) {
+            std::cout << val << " ";
+        }
+        std::cout << "\n";
+    }
 }
 
 //v: current vertex
@@ -112,6 +132,24 @@ void BFS(int v, const std::vector<std::vector<int>>& adjacencyMatrix) {
             std::cout << "-> " << edges[i].second << " ";
         }
     }
+    std::cout << "\nBFS as a adjacency matrix: \n";
+    std::vector<std::vector<int>> adjacencyMatrixBFS = createAdjacencyMatrix(adjacencyMatrix.size());
+    for (const auto& edge : edges) {
+        adjacencyMatrixBFS[edge.first][edge.second] = 1;
+    }
+    for (const auto &row : adjacencyMatrixBFS) {
+        for (int val : row) {
+            std::cout << val << " ";
+        }
+        std::cout << "\n";
+    }
+
+    std::ofstream file;
+    file.open("BFS.csv");
+    for (int i = 0; i < edges.size(); i++) {
+        file << edges[i].first <<","<< edges[i].second<< "\n";
+    }
+    file.close();
 }
 
 
@@ -155,6 +193,17 @@ int main() {
         }
         std::cout << "\n";
     }
+    //write the matrix into a csv file
+    std::ofstream file;
+    file.open("adjacencyMatrix.csv");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if(adjacencyMatrix[i][j]){
+                file << i <<","<< j << "\n";
+            }
+        }
+    }
+    file.close();
 
     std::cout << "Adjacency List:\n";
     for (int i = 0; i < n; i++) {
