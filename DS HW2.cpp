@@ -14,6 +14,7 @@ std::pair<int, int> generateRandomEdge(int n, const std::vector<std::vector<int>
     }
     return std::make_pair(a, b);
 }
+
 std::vector<std::vector<int>> createAdjacencyMatrix(int n) {
     std::vector<std::vector<int>> matrix(n, std::vector<int>(n, 0));
     return matrix;
@@ -101,7 +102,7 @@ int main() {
     std::cin >> n;
     std::cout << "Enter number of edges: ";
     std::cin >> e;
-    if(e > (n * (n - 1) / 2)){// (C N取2)
+    if(e > (n * (n - 1) / 2)){// (Cn取2)
         std::cout << "That's too many edges\n";
         std::cout << "The maximum number of edges for " << n << " nodes is " << (n * (n - 1) / 2) << "\n";
         return 0;
