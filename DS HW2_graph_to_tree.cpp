@@ -39,7 +39,7 @@ std::vector<std::vector<int>> createAdjacencyList(int n) {
 
 //TODO: GET BETTER AT CODING THIS THING
 
-void DFS_Utility(int v, std::vector<bool>& visited, const std::vector<std::vector<int>>& adjacencyMatrix, std::vector< std::pair<int, int> >& edges, int parent) {//parent for edge type checking
+void DFS_Utility(int v, std::vector<bool>& visited, const std::vector<std::vector<int>>& adjacencyMatrix, std::vector<std::pair<int, int>>& edges, int parent) {//parent for edge type checking
     visited[v] = true;
 
     //visit the node not visited yet
@@ -72,12 +72,6 @@ void DFS(int v, const std::vector<std::vector<int>>& adjacencyMatrix) {
         }
     }
     //write all the edge[i].first and second to a csv file
-    std::ofstream file;
-    file.open("DFS.csv");
-    for (int i = 0; i < edges.size(); i++) {
-        file << edges[i].first <<","<< edges[i].second<< "\n";
-    }
-    file.close();
 
     std::cout << "\nDFS as a adjacency matrix: \n";
     std::vector<std::vector<int>> adjacencyMatrixDFS = createAdjacencyMatrix(adjacencyMatrix.size());
@@ -90,6 +84,16 @@ void DFS(int v, const std::vector<std::vector<int>>& adjacencyMatrix) {
         }
         std::cout << "\n";
     }
+    std::ofstream file;
+    try{
+        file.open("DFS.csv");
+    }catch(const std::exception& e){
+        std::cerr << e.what() << '\n';
+    }
+    for (int i = 0; i < edges.size(); i++) {
+        file << edges[i].first <<","<< edges[i].second<< "\n";
+    }
+    file.close();
 }
 
 //v: current vertex
@@ -145,7 +149,11 @@ void BFS(int v, const std::vector<std::vector<int>>& adjacencyMatrix) {
     }
 
     std::ofstream file;
-    file.open("BFS.csv");
+    try{
+        file.open("BFS.csv");
+    }catch(const std::exception& e){
+        std::cerr << e.what() << '\n';
+    }
     for (int i = 0; i < edges.size(); i++) {
         file << edges[i].first <<","<< edges[i].second<< "\n";
     }
